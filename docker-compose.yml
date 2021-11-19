@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  db:
+    image: mariadb:10
+    container_name: Deer_mysql
+    ports:
+      - 3306:3306
+    volumes:
+      - ./deerDB/conf.d:/etc/mysql/conf.d
+      - ./deerDB/data:/var/lib/mysql
+      - ./deerDB/initdb.d:/docker-entrypoint-initdb.d
+    env_file: .env
+    environment:
+      TZ: Asia/Seoul
+    networks:
+      - Deer
+    restart: always
+
+networks:
+  Deer:
