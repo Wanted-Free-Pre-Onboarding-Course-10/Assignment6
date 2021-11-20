@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { CreateChargeDto } from '../charge/dto/create.charge.dto';
 
 export interface FineRuleService {
-  applyFine();
+  applyFine(basicPayment: number, createChargeDto: CreateChargeDto);
 }

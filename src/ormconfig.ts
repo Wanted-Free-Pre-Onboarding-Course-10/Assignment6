@@ -1,4 +1,4 @@
-import { TypeOrmModuleOptions } from "@nestjs/typeorm";
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { config } from 'dotenv';
 
 config();
@@ -10,6 +10,6 @@ export const typeORMConfig: TypeOrmModuleOptions = {
   password: process.env.MYSQL_ROOT_PASSWORD,
   database: process.env.MYSQL_DATABASE,
   entities: [__dirname + '/../**/*.entity.{js, ts}'],
-  synchronize: true,
+  synchronize: false,
   logging: true,
 };
