@@ -1,14 +1,11 @@
-import { Area } from "../area/area.entity";
-import { EntityRepository, Repository } from "typeorm";
-import { Deer } from "./deer.entity";
+import { EntityRepository, Repository } from 'typeorm';
+import { Deer } from './deer.entity';
 
 @EntityRepository(Deer)
-export class DeerRepository extends Repository<Deer>{
-  async findbyBoardId(boardName): Promise<Area> {
-    const board = await this.findOne({where:{deerName:boardName}});
-    return board.area;
+export class DeerRepository extends Repository<Deer> {
+  findbyBoardId(boardName): Promise<Deer> {
+    return this.findOne({ where: { deerName: boardName } });
   }
-  
   async createDeer(deer) {
     await this.save(deer);
   }

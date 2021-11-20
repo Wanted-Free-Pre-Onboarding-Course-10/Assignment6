@@ -11,35 +11,47 @@ export class ForbiddenFineRuleServiceImpl implements FineRuleService {
     @InjectRepository(ForbiddenAreaRepository)
     private forbiddenAreaRepository: ForbiddenAreaRepository,
     @InjectRepository(DeerRepository)
-    private deerRepository: DeerRepository) { }
-  
-  
+    private deerRepository: DeerRepository,
+  ) {}
+
   async applyFine(basicPayment: number, createChargeDto: CreateChargeDto) {
     const { lat, lng, startAt, endAt, boardName } = createChargeDto;
 
-    const currentArea = await this.forbiddenAreaRepository.currentArea(lat, lng);
+    const currentArea = await this.forbiddenAreaRepository.currentArea(
+      lat,
+      lng,
+    );
     const originalArea = await this.deerRepository.findbyBoardId(boardName);
 
-    // const forbiddenArea = await this.forbiddenAreaRepository.findAreaByLatAndLng(lat, lng);
-    console.log('11111111',originalArea[0].area_center.x);
-    const distanceFromOriginalArea = Math.sqrt(Math.pow((originalArea[0].area_center.x - parseInt(lat)), 2) + Math.pow((originalArea[0].area_center.y - parseInt(lng)), 2));
+    const forbiddenArea =
+      await this.forbiddenAreaRepository.findAreaByLatAndLng(lat, lng);
+
+    const areaCenterPoint = this.getCenterPointValue(
+      originalArea.area.areaCenter.toString(),
+    );
+    const distanceFromOriginalArea = Math.sqrt(
+      Math.pow(parseInt(areaCenterPoint[0]) - parseInt(lat), 2) +
+        Math.pow(parseInt(areaCenterPoint[1]) - parseInt(lng), 2),
+    );
     console.log(distanceFromOriginalArea);
 
-    // if (currentArea.id === originalArea.id) {
-    //   if (forbiddenArea) {
-    //     let payment = basicPayment + 6000
-    //     return payment;
-    //   } else {
-    //     return basicPayment;
-    //   }
-    // } else {
-    //   if (forbiddenArea) {
-        // let payment = basicPayment + 500 * distanceFromOriginalArea + 6000 
-    //     // return payment;
-    //   } else {
-        // let payment = basicPayment + 500 * distanceFromOriginalArea
-        // return payment;
-    //   }
-    // }
+    if (currentArea.id === originalArea.id) {
+      if (forbiddenArea) {
+        return basicPayment + 6000;
+      } else {
+        return basicPayment;
+      }
+    } else {
+      if (forbiddenArea) {
+        return basicPayment + 500 * distanceFromOriginalArea + 6000;
+      } else {
+        return basicPayment + 500 * distanceFromOriginalArea;
+      }
+    }
+  }
+
+  getCenterPointValue(areaCenterText: string) {
+    const length = areaCenterText.length;
+    return areaCenterText.substring(6, length - 1).split(' ');
   }
 }
