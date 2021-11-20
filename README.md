@@ -50,7 +50,7 @@
 
 
 ## 개발 일정
-<img src="https://user-images.githubusercontent.com/48669085/142731547-301ba063-142b-4d4a-a7d1-ad82d3be6519.png" height="500px" width="600px" />
+<img src="https://user-images.githubusercontent.com/48669085/142732325-6e32ed88-86dd-41ff-baca-324252d22387.png" height="500px" width="600px" />
 
 
 ## 코드 컨벤션
