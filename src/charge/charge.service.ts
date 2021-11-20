@@ -13,9 +13,12 @@ export class ChargeService {
     @Inject('DiscountRuleService')
     private discountRuleService: DiscountRuleService,
   ) {}
-  async createCharge(req: CreateChargeDto): Promise<void> {
-    this.areaService.createBasicFee(); // 지역에따른 기본요금 생성
-    this.fineRuleService.applyFine(); // 벌금규칙 적용
-    this.discountRuleService.discount(); //할인규칙 적용
+  async createCharge(createChargeDto: CreateChargeDto): Promise<void> {
+    const basicPayment = await this.areaService.createBasicFee(createChargeDto); // 지역에따른 기본요금 생성
+
+    this.fineRuleService.applyFine(basicPayment, createChargeDto); // 벌금규칙 적용
+    // this.discountRuleService.discount(); //할인규칙 적용
+
+    // return payment;
   }
 }
