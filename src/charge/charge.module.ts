@@ -7,9 +7,10 @@ import { ForbiddenFineRuleServiceImpl } from '../fine-rule/serviceImpl/Forbidden
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AreaRepository } from '../area/area.repository';
 import { ParkingzoneRepository } from '../discount-rule/discount.repository'
+import { UsersRepository } from '../user/user.repository';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([AreaRepository, ParkingzoneRepository])],
+  imports: [TypeOrmModule.forFeature([AreaRepository, ParkingzoneRepository, UsersRepository])],
   controllers: [ChargeController],
   providers: [
     ChargeService,
