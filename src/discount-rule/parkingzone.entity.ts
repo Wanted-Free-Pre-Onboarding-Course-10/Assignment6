@@ -11,7 +11,7 @@ export class ParkingZone {
   @Column({
     name: 'parkingzone_radius',
     type: 'decimal',
-    precision: 10,
+    precision: 20,
     scale: 10,
     nullable: false,
   })
