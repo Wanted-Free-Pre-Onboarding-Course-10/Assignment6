@@ -77,7 +77,7 @@
 <img src="https://img.shields.io/badge/TYPEORM-red?style=for-the-badge&logo=TYPEORM&logoColor=white" />
 
 ## DB 스키마
-<img src="https://user-images.githubusercontent.com/48669085/142731856-69f0cf96-d4ed-473c-a8e2-fa2691856434.png" height="300px" width="600px" />
+<img src="https://user-images.githubusercontent.com/48669085/142731856-69f0cf96-d4ed-473c-a8e2-fa2691856434.png" height="400px" width="1000px" />
 
 ## API
 [API문서](https://documenter.getpostman.com/view/13568025/UVCB9Pbm)
