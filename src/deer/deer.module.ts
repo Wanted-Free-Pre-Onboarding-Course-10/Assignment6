@@ -3,9 +3,10 @@ import { DeerController } from './deer.controller';
 import { DeerService } from './deer.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Deer } from './deer.entity';
+import { DeerRepository } from './deer.repository';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Deer])],
+  imports: [TypeOrmModule.forFeature([DeerRepository])],
   controllers: [DeerController],
   providers: [DeerService],
 })
