@@ -3,7 +3,7 @@
 
 ## 설명
 
-본 프로젝트는 원티드x위코드 백엔드 프리온보딩  [디어](https://www.notion.so/wecode/087d474586cb45b8a981a5ab4931b9f3)에서 출제한 과제를 기반으로 제작 되었습니다.
+본 프로젝트는 원티드x위코드 백엔드 프리온보딩  [디어](https://www.notion.so/wecode/6c0ed2bbf2c14f359a9734b8bb093d1a)에서 출제한 과제를 기반으로 제작 되었습니다.
 
  <details>
 
