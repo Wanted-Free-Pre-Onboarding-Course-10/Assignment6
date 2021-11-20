@@ -23,6 +23,9 @@ export class User {
   @JoinTable({ name: 'USER_DEER' })
   deers: Deer[];
 
+  @Column({ nullable: true })
+  returnTime: number;
+
   @BeforeInsert()
   async setPassword(password: string) {
     const salt = await bcrypt.genSalt();

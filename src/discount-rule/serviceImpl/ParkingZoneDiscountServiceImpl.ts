@@ -11,13 +11,16 @@ export class ParkingZoneDiscountServiceImpl implements DiscountRuleService {
   ) { }
 
   // 할인 요금제 //
-  async discount(createChargeDto: CreateChargeDto) {
+  async discount(createChargeDto: CreateChargeDto, price: number) {
     const { lat, lng } = createChargeDto;
+
+    // 재사용시간 30분 이내인지 확인
+
+
     // 파킹존에 위치하는지 확인
     const check = await this.parkingRepository.findParkingzoneByLatAmdLng(lat, lng);
     if (check)
-      return;
-    //return 할인 가격
-    //return 그냥 가격
+      return price * 0.7;
+    return price;
   }
 }
