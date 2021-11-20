@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { AreaRepository } from './area.repository';
 import { CreateChargeDto } from '../charge/dto/create.charge.dto';
 import * as moment from 'moment';
+import { LandingBoundaryException } from '../exception/landing_boundary_exception';
 
 @Injectable()
 export class AreaService {
@@ -14,6 +15,9 @@ export class AreaService {
   // == 해당 지역의 기본요금 응답 == //
   async createBasicFee(createChargeDto: CreateChargeDto): Promise<number> {
     const { lat, lng, startAt, endAt } = createChargeDto;
+
+    if (await this.areaRepository.isContainPointInMultiPoint(lat, lng))
+      throw new LandingBoundaryException();
 
     const foundArea = await this.areaRepository.findAreaByLatAndLng(lat, lng);
 
