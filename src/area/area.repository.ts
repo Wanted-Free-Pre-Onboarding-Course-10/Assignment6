@@ -24,4 +24,51 @@ export class AreaRepository extends Repository<Area> {
 
     return false;
   }
+
+  async createArea(datas) {
+    for (const data of datas) {
+      const { areaBoundary, areaCoords, areaCenter, basicFee, extraFee } = data;
+      const result = await this.manager.query(`
+    INSERT INTO AREA
+      (area_boundary, area_center, area_coords, basic_fee, extra_fee)
+    VALUES
+      (
+       ST_PolygonFromText('POLYGON((${this.makeLastText(
+         areaBoundary[0],
+         this.makePolygonText(areaCoords),
+       )}))'),
+       ST_GeomFromText('POINT(${areaCenter[0]} ${areaCenter[1]})'),
+       ST_GEOMFROMTEXT('MultiPoint( ${this.makeCoords(
+         areaCoords,
+       )} )'), ${basicFee}, ${extraFee}
+      );`);
+    }
+  }
+
+  private makePolygonText(polygon: number[][]) {
+    let text = '';
+    for (const point of polygon) {
+      text += `${point[0]} ${point[1]}, `;
+    }
+    return text;
+  }
+
+  private makeCoords(coords: number[][]) {
+    let text = '';
+    const length = coords.length;
+    let count = 0;
+    for (const point of coords) {
+      text += `${point[0]} ${point[1]}`;
+      count++;
+      if (count !== length) {
+        text += ', ';
+      }
+    }
+    return text;
+  }
+
+  private makeLastText(start: number[], text: string) {
+    text += `${start[0]} ${start[1]}`;
+    return text;
+  }
 }
