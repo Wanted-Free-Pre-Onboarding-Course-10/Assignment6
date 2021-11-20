@@ -6,9 +6,11 @@ import { ParkingZoneDiscountServiceImpl } from '../discount-rule/serviceImpl/Par
 import { ForbiddenFineRuleServiceImpl } from '../fine-rule/serviceImpl/ForbiddenFineRuleServiceImpl';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AreaRepository } from '../area/area.repository';
+import { ForbiddenAreaRepository } from 'src/fine-rule/fine-rule.repository';
+import { DeerRepository } from 'src/deer/deer.repository';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([AreaRepository])],
+  imports: [TypeOrmModule.forFeature([AreaRepository, ForbiddenAreaRepository, DeerRepository])],
   controllers: [ChargeController],
   providers: [
     ChargeService,
