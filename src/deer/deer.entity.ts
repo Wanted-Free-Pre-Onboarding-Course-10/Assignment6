@@ -1,9 +1,9 @@
 import {
   Column,
   Entity,
+  JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
-  JoinColumn,
 } from 'typeorm';
 import { Area } from '../area/area.entity';
 
@@ -15,7 +15,7 @@ export class Deer {
   @Column({ name: 'deer_name', unique: true, nullable: false })
   deerName: string;
 
-  @OneToOne(() => Area)
+  @OneToOne(() => Area, { eager: true })
   @JoinColumn({ name: 'deer_area_id' })
   area: Area;
 }
