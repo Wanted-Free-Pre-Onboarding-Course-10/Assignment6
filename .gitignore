@@ -36,5 +36,4 @@ lerna-debug.log*
 
 .env
 deerDB
-
-*db
+package-lock.json
