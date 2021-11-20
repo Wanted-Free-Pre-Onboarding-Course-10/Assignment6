@@ -8,4 +8,8 @@ export class DeerRepository extends Repository<Deer>{
     const board = await this.findOne({where:{deerName:boardName}});
     return board.area;
   }
+  
+  async createDeer(deer) {
+    await this.save(deer);
+  }
 }
