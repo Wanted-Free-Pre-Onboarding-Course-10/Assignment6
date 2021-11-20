@@ -24,7 +24,7 @@ export class User {
   deers: Deer[];
 
   @Column({ nullable: true })
-  returnTime: number;
+  returnTime: Date;
 
   @BeforeInsert()
   async setPassword(password: string) {
