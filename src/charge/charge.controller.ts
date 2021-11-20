@@ -6,7 +6,7 @@ import { ChargeService } from './charge.service';
 export class ChargeController {
   constructor(private chargeService: ChargeService) {}
   @Post()
-  createCharge(@Req() createChargeDto: CreateChargeDto): Promise<number> {
+  createCharge(@Req() createChargeDto: CreateChargeDto): Promise<void> {
     return this.chargeService.createCharge(createChargeDto);
   }
 }
