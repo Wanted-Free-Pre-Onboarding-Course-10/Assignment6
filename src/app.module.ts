@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { typeormConfig } from './config/ormconfig';
+import { typeORMConfig } from './ormconfig';
 import { UserModule } from './user/user.module';
 import { DeerModule } from './deer/deer.module';
 import { AreaModule } from './area/area.module';
@@ -10,7 +10,7 @@ import { ChargeModule } from './charge/charge.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(typeormConfig),
+    TypeOrmModule.forRoot(typeORMConfig),
     UserModule,
     DeerModule,
     AreaModule,
@@ -21,4 +21,4 @@ import { ChargeModule } from './charge/charge.module';
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule { }
