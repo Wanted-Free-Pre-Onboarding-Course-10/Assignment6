@@ -4,7 +4,6 @@ import { ForbiddenArea } from './forbidden.entity';
 @EntityRepository(ForbiddenArea)
 export class ForbiddenRepository extends Repository<ForbiddenArea> {
   async createForbiddenArea(datas) {
-    console.log(datas);
     for (const data of datas) {
       const result = await this.manager.query(`
     INSERT INTO FORBIDDEN_AREA
@@ -12,9 +11,9 @@ export class ForbiddenRepository extends Repository<ForbiddenArea> {
     VALUES 
       (
        ST_PolygonFromText('POLYGON((${this.makeLastText(
-         data[0],
-         this.makePolygonText(data),
-       )}))'),
+        data[0],
+        this.makePolygonText(data),
+      )}))'),
        ST_GEOMFROMTEXT('MultiPoint( ${this.makeCoords(data)} )')
       );`);
     }

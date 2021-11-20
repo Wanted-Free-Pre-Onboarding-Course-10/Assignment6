@@ -11,7 +11,7 @@ export class UserService {
   constructor(
     private usersRepository: UsersRepository,
     private jwtService: JwtService,
-  ) {}
+  ) { }
   signUp(signUpDto: SignUpDto) {
     return this.usersRepository.signUp(signUpDto);
   }
@@ -26,5 +26,14 @@ export class UserService {
 
       return { accessToken };
     } else throw new UnauthorizedException('logIn failed');
+  }
+
+  async setLastUsedTime(id: number) {
+    try {
+      await this.usersRepository.setLastUsedTime(id);
+    }
+    catch (err) {
+      throw (err);
+    }
   }
 }

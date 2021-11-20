@@ -15,7 +15,8 @@ export class Deer {
   @Column({ name: 'deer_name', unique: true, nullable: false })
   deerName: string;
 
-  @ManyToOne(() => Area)
+  @ManyToOne(() => Area, { eager: true })
+
   @JoinColumn({ name: 'deer_area_id' })
   area: Area;
 }

@@ -5,5 +5,5 @@ import { GetUser } from '../common/get-user.decorator';
 
 
 export interface DiscountRuleService {
-  discount(user: User, createChargeDto: CreateChargeDto, price: number);
+  discount(user: User, createChargeDto: CreateChargeDto, finedMoneyResult, basic_fee);
 }
