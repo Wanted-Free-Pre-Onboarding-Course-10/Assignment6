@@ -1,4 +1,4 @@
-import { EntityRepository, Repository } from 'typeorm';
+import { EntityRepository, Repository, } from 'typeorm';
 import { User } from './user.entity';
 import { SignUpDto } from './dto/sign.up.dto';
 
@@ -16,11 +16,21 @@ export class UsersRepository extends Repository<User> {
     }
   }
 
-  signIn(username: string) {
+  async signIn(username: string) {
     try {
-      return this.findOne({ username });
+      return await this.findOne({ username });
     } catch (err) {
       throw err;
     }
   }
+
+  async getLastUsedTime(id: number) {
+    try {
+      const user = await this.findOne(id);
+      return user.returnTime;
+    } catch (error) {
+      throw error;
+    }
+  }
+
 }
