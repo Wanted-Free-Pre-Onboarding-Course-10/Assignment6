@@ -2,12 +2,6 @@ import { config } from 'dotenv';
 import { Area } from './src/area/area.entity';
 
 config();
-
-console.log(process.env.MYSQL_HOST);
-console.log(process.env.MYSQL_PORT);
-console.log(process.env.MYSQL_USER);
-console.log(process.env.MYSQL_ROOT_PASSWORD);
-console.log(process.env.MYSQL_DATABASE);
 const typeORMConfig = {
   type: 'mysql',
   host: process.env.MYSQL_HOST,
