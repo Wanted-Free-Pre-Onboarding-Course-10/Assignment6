@@ -4,4 +4,5 @@ export class CreateChargeDto {
   lng: string;
   startAt: string;
   endAt: string;
+  isWrong: boolean;
 }

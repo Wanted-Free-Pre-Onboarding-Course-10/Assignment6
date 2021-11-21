@@ -25,12 +25,21 @@ export class AreaRepository extends Repository<Area> {
 
   async createArea(datas) {
     for (const data of datas) {
-      const { areaBoundary, areaCoords, areaCenter, basicFee, extraFee } = data;
+      const {
+        areaBoundary,
+        areaCoords,
+        areaCenter,
+        basicFee,
+        extraFee,
+        areaName,
+      } = data;
       const result = await this.manager.query(`
     INSERT INTO AREA
-      (area_boundary, area_center, area_coords, basic_fee, extra_fee)
+      (area_name, area_boundary, area_center, area_coords, basic_fee, extra_fee)
     VALUES
       (
+      '${areaName}' 
+      ,
        ST_PolygonFromText('POLYGON((${this.makeLastText(
          areaBoundary[0],
          this.makePolygonText(areaCoords),

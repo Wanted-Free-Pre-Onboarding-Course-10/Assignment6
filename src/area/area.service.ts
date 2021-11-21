@@ -26,7 +26,7 @@ export class AreaService {
 
     const deer = await this.deerRepository.findbyBoardId(boardName);
 
-    const diffMinutes = this.calculateDiffHour(startAt, endAt);
+    const diffMinutes = this.calculateDiffMinutes(startAt, endAt);
 
     const payment: number =
       deer.area.basicFee + deer.area.extraFee * diffMinutes;
@@ -52,7 +52,7 @@ export class AreaService {
   }
 
   // == 걸린 분 리턴하는 메서드 == //
-  private calculateDiffHour(startAt: string, endAt: string): number {
+  private calculateDiffMinutes(startAt: string, endAt: string): number {
     const startMoment = moment(startAt, 'YYYYMMDDHHmm');
     const endMoment = moment(endAt, 'YYYYMMDDHHmm');
 
