@@ -12,5 +12,7 @@ export class ErrorRuleServiceImpl implements ErrorRuleService {
   applyError(
     basicPayment: number,
     createChargeDto: CreateChargeDto,
-  ): Promise<number>;
+  ): Promise<number> {
+    return;
+  }
 }
