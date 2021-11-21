@@ -18,31 +18,34 @@ export class ForbiddenFineRuleServiceImpl implements FineRuleService {
     basicPayment: number,
     createChargeDto: CreateChargeDto,
   ): Promise<number> {
-    const { lat, lng, startAt, endAt, boardName } = createChargeDto;
-
+    const { lat, lng, boardName } = createChargeDto;
     const currentArea = await this.forbiddenAreaRepository.currentArea(
+      lat,
+      lng,
+    );
+
+    const forbiddenArea = this.forbiddenAreaRepository.findAreaByLatAndLng(
       lat,
       lng,
     );
     const originalArea = await this.deerRepository.findbyBoardId(boardName);
 
-    const forbiddenArea =
-      await this.forbiddenAreaRepository.findAreaByLatAndLng(lat, lng);
     const areaCenterPoint = this.getCenterPointValue(
       originalArea.area.areaCenter.toString(),
     );
-    const distanceFromOriginalArea = Math.sqrt(
-      Math.pow(parseInt(areaCenterPoint[0]) - parseInt(lat), 2) +
-        Math.pow(parseInt(areaCenterPoint[1]) - parseInt(lng), 2),
-    );
+      
     if (currentArea.id === originalArea.id) {
-      if (forbiddenArea) {
+      if (await forbiddenArea) {
         return basicPayment + 6000;
       } else {
         return basicPayment;
       }
     } else {
-      if (forbiddenArea) {
+      const distanceFromOriginalArea = Math.sqrt(
+        Math.pow(parseInt(areaCenterPoint[0]) - parseInt(lat), 2) +
+          Math.pow(parseInt(areaCenterPoint[1]) - parseInt(lng), 2),
+      );
+      if (await forbiddenArea) {
         return basicPayment + 500 * distanceFromOriginalArea + 6000;
       } else {
         return basicPayment + 500 * distanceFromOriginalArea;

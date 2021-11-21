@@ -14,13 +14,11 @@ export class ForbiddenAreaRepository extends Repository<ForbiddenArea> {
     return forbiddenArea;
   }
 
-  async currentArea(lat: string, lng: string): Promise<Area> {
-    const currentArea = await this.manager.query(` 
+  currentArea(lat: string, lng: string): Promise<Area> {
+    return this.manager.query(` 
     select * from area where ST_Contains(area.area_boundary, ST_GeomFromText('POINT(${parseFloat(
       lat,
     )} ${parseFloat(lng)})'));
     `);
-
-    return currentArea;
   }
 }
