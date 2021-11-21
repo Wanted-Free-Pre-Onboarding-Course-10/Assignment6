@@ -13,19 +13,14 @@ export class ChargeService {
     private fineRuleService: FineRuleService,
     @Inject('DiscountRuleService')
     private discountRuleService: DiscountRuleService,
-  ) {}
+  ) { }
   async createCharge(
     @GetUser() user,
     createChargeDto: CreateChargeDto,
   ): Promise<void> {
     const basicPayment = await this.areaService.createBasicFee(createChargeDto); // 지역에따른 기본요금 생성
-
-    const finedMoneyResult = this.fineRuleService.applyFine(
-      basicPayment,
-      createChargeDto,
-    ); // 벌금규칙 적용
-    this.discountRuleService.discount(user, createChargeDto, finedMoneyResult); //할인규칙 적용
-
-    // return payment;
+    const finedMoneyResult = await this.fineRuleService.applyFine(basicPayment.payment, createChargeDto); // 벌금규칙 적용
+    const finalPayment = await this.discountRuleService.discount(user, createChargeDto, finedMoneyResult, basicPayment.basic_fee); //할인규칙 적용
+    return finalPayment;
   }
 }

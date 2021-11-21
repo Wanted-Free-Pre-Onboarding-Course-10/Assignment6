@@ -17,27 +17,27 @@ export class ParkingZoneDiscountServiceImpl implements DiscountRuleService {
   ) { }
 
   // 할인 요금제 //
-  async discount(@GetUser() user, createChargeDto: CreateChargeDto, price: number) {
+  async discount(@GetUser() user, createChargeDto: CreateChargeDto, finedMoneyResult, basic_fee) {
     const { lat, lng } = createChargeDto;
     const startAt = new Date();
-    // 재사용시간 30분 이내인지 확인
-    const endtAt = await this.usersRepository.getLastUsedTime(user)  //jwt 유저 아이디
-
-    const startMoment = moment(startAt, 'YYYYMMDDHHmm');
-    const endMoment = moment(endtAt, 'YYYYMMDDHHmm');
-
-    const diffMinutes = moment
-      .duration(endMoment.diff(startMoment))
-      .asMinutes();
-
-    if (diffMinutes > 30)
-      return;
-    // 기존 금액 할인하기
-
-    // 파킹존에 위치하는지 확인
+    const endtAt = await this.usersRepository.getLastUsedTime(user)
+    if (endtAt) {
+      const startMoment = moment(startAt, 'YYYYMMDDHHmm');
+      const endMoment = moment(endtAt, 'YYYYMMDDHHmm');
+      const diffMinutes = moment
+        .duration(endMoment.diff(startMoment))
+        .asMinutes();
+      if (diffMinutes < 30) {
+        finedMoneyResult = finedMoneyResult - basic_fee;
+        return finedMoneyResult;
+      }
+    }
     const check = await this.parkingRepository.findParkingzoneByLatAmdLng(lat, lng);
     if (check)
-      return price * 0.7;
-    return price;
+      finedMoneyResult = finedMoneyResult * 0.7;
+
+    //사용ㅈ ㅏ반납시간
+    this.usersRepository.setLastUsedTime(user);
+    return finedMoneyResult;
   }
 }

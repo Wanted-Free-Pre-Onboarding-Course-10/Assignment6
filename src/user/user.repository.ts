@@ -32,4 +32,14 @@ export class UsersRepository extends Repository<User> {
       throw error;
     }
   }
+
+  async setLastUsedTime(id: number) {
+    try {
+      const user = await this.findOne(id);
+      user.returnTime = new Date();
+      this.save(user);
+    } catch (error) {
+      throw error;
+    }
+  }
 }

@@ -11,5 +11,5 @@ export const typeORMConfig: TypeOrmModuleOptions = {
   database: process.env.MYSQL_DATABASE,
   entities: [__dirname + '/../**/*.entity.{js, ts}'],
   synchronize: false,
-  logging: true,
+  logging: false,
 };
