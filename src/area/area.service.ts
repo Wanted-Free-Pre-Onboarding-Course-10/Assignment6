@@ -4,33 +4,36 @@ import { AreaRepository } from './area.repository';
 import { CreateChargeDto } from '../charge/dto/create.charge.dto';
 import * as moment from 'moment';
 import { LandingBoundaryException } from '../exception/landing_boundary_exception';
+import { DeerRepository } from '../deer/deer.repository';
 
 @Injectable()
 export class AreaService {
   constructor(
     @InjectRepository(AreaRepository)
     private areaRepository: AreaRepository,
+    @InjectRepository(DeerRepository)
+    private deerRepository: DeerRepository,
   ) {}
 
   // == 해당 지역의 기본요금 응답 == //
   async createBasicFee(
     createChargeDto: CreateChargeDto,
   ): Promise<{ payment: number; basic_fee: number }> {
-    const { lat, lng, startAt, endAt } = createChargeDto;
+    const { lat, lng, startAt, endAt, boardName } = createChargeDto;
 
     if (await this.isContainMultipointBoundary(lat, lng))
       throw new LandingBoundaryException();
 
-    const foundArea = await this.areaRepository.findAreaByLatAndLng(lat, lng);
+    const deer = await this.deerRepository.findbyBoardId(boardName);
 
     const diffMinutes = this.calculateDiffHour(startAt, endAt);
 
     const payment: number =
-      foundArea[0].basic_fee + foundArea[0].extra_fee * diffMinutes;
+      deer.area.basicFee + deer.area.extraFee * diffMinutes;
 
     const data = {
       payment: payment,
-      basic_fee: foundArea[0].basic_fee,
+      basic_fee: deer.area.basicFee,
     };
 
     return data;
