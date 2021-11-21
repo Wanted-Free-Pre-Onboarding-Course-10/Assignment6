@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { SignUpDto } from './dto/sign.up.dto';
 import { UsersRepository } from './user.repository';
 import { SignInDto } from './dto/sign.in.dto';
@@ -34,13 +34,5 @@ export class UserService {
 
       return { accessToken };
     } else throw new LoginFailException();
-  }
-
-  async setLastUsedTime(id: number) {
-    try {
-      await this.usersRepository.setLastUsedTime(id);
-    } catch (err) {
-      throw err;
-    }
   }
 }

@@ -7,6 +7,7 @@ import { UsersRepository } from 'src/user/user.repository';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from '../../common/get-user.decorator';
 import * as moment from 'moment';
+
 @Injectable()
 @UseGuards(AuthGuard)
 export class ParkingZoneDiscountServiceImpl implements DiscountRuleService {
@@ -47,7 +48,7 @@ export class ParkingZoneDiscountServiceImpl implements DiscountRuleService {
       finedMoneyResult.basicPayment = finedMoneyResult.basicPayment * 0.7;
       message += '주차 구역 주차.';
     }
-    await this.usersRepository.setLastUsedTime(user);
+    await this.usersRepository.setLastUsedTime(user, new Date(endtAt));
     return {
       finedMoneyResult: finedMoneyResult.basicPayment,
       message: message,
