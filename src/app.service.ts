@@ -47,6 +47,7 @@ export class AppService {
       [-90, 180],
     ];
     const 은평 = {
+      areaName: '은평',
       areaBoundary: 은평_boundary,
       areaCoords: 은평_multipoint,
       areaCenter: polylabel([은평_boundary]),
@@ -69,6 +70,7 @@ export class AppService {
       [0, 180],
     ];
     const 노원 = {
+      areaName: '노원',
       areaBoundary: 노원_boundary,
       areaCoords: 노원_multipoint,
       areaCenter: polylabel([노원_boundary]),
@@ -91,6 +93,7 @@ export class AppService {
     ];
 
     const 도봉 = {
+      areaName: '도봉',
       areaBoundary: 도봉_boundary,
       areaCoords: 도봉_multipoint,
       areaCenter: polylabel([도봉_boundary]),
@@ -114,6 +117,7 @@ export class AppService {
     ];
 
     const 중랑 = {
+      areaName: '중랑',
       areaBoundary: 중랑_boundary,
       areaCoords: 중랑_multipoint,
       areaCenter: polylabel([중랑_boundary]),

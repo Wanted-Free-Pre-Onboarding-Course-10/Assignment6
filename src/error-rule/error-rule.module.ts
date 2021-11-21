@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ErrorRuleService } from './error-rule.service';
-import { ErrorRuleServiceImpl } from './serviceImpl/ErrorRuleServiceImpl';
+import { WrongBikeServiceImpl } from './serviceImpl/WrongBikeServiceImpl';
 
 @Module({
   providers: [
     {
-      provide: 'ErrorRuleService', useClass: ErrorRuleServiceImpl,
-    }]
+      provide: 'ErrorRuleService',
+      useClass: WrongBikeServiceImpl,
+    },
+  ],
 })
-export class ErrorRuleModule { }
+export class ErrorRuleModule {}

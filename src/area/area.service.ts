@@ -23,7 +23,7 @@ export class AreaService {
 
     const foundArea = await this.areaRepository.findAreaByLatAndLng(lat, lng);
 
-    const diffMinutes = this.calculateDiffHour(startAt, endAt);
+    const diffMinutes = this.calculateDiffMinutes(startAt, endAt);
 
     const payment: number =
       foundArea[0].basic_fee + foundArea[0].extra_fee * diffMinutes;
@@ -47,7 +47,7 @@ export class AreaService {
   }
 
   // == 걸린 분 리턴하는 메서드 == //
-  private calculateDiffHour(startAt: string, endAt: string): number {
+  private calculateDiffMinutes(startAt: string, endAt: string): number {
     const startMoment = moment(startAt, 'YYYYMMDDHHmm');
     const endMoment = moment(endAt, 'YYYYMMDDHHmm');
 
