@@ -124,4 +124,92 @@ npm run start:dev
 
 ## 개발 과정
 
+### 도메인 설계
+- 변경에 유연한 설계를 위해선 '구현'(내부)와 '인터페이스'(외부)가 **분리**되어야 한다 생각했습니다.
+- 그렇기 위해선 객체가 외부에 **꼭** 드러날 정보만 드러나야 한다 생각했습니다.
+- 객체가 다른 객체에게 **요청할 메시지**만 외부에 드러나야 한다 생각했습니다.
+- 그렇게 하기 위해선 시스템의 **구조**를 먼저 생각하고 기능은 구조에 종속되게 설계해야 한다 생각했습니다.
 
+
+우리의 시스템을 바라보는 사용자의 멘탈모델인 **도메인 모델**부터 설계를 하였습니다.
+
+<img width="1005" alt="스크린샷 2021-11-21 오후 3 55 23" src="https://user-images.githubusercontent.com/67785334/142752802-1b8d21b0-7398-4829-a707-2202744859a2.png">
+
+위 도메인 설계를 만드는 과정
+
+1. 필요한 객체들이 무엇이 있는지 생각한다.
+2. 객체가 책임을 실행할 때, 다른 객체에 요청할 메시지가 무엇인지 생각한다.
+3. 해당 메시지를 요청받을 수 있는 객체를 생각한다.
+
+- 메시지가 객체를 선택하게 하는 방법은 객체가 외부에 드러낼 인터페이스 수를 최소화 하는데 도와준다 생각합니다.
+- 객체의 상태부터 생각하고 메시지를 고르면, 불필요한 정보가 외부에 드러날 수 있습니다.
+
+
+### 인터페이스를 통한 역할과 구현의 분리
+할인규칙과 벌금규칙은 미래에 수정될 수도, 추가될 수도 있습니다.
+변경에 대비한 설계를 위해선, 벌금규칙, 할인규칙의 역할만 의존해야 한다 생각했습니다.
+
+#### DIP
+- 할인규칙과, 벌금규칙을 사용하는 클라이언트 코드는 추상화에만 의존하고, 구체화에는 의존하지 않아 DIP를 지키는 설계를 했습니다.
+
+- 벌금 규칙 인터페이스
+```typescript
+export interface FineRuleService {
+  applyFine(
+    basicPayment: number,
+    createChargeDto: CreateChargeDto,
+  ): Promise<number>;
+}
+```
+- 할인 규칙 인터페이스
+```typescript
+export interface DiscountRuleService {
+  discount(
+    user: User,
+    createChargeDto: CreateChargeDto,
+    finedMoneyResult,
+    basic_fee,
+  ): Promise<number>;
+}
+```
+
+- 두 추상화에만 의존하는 클랑이언트 코드
+```typescript
+@Injectable()
+export class ChargeService {
+  constructor(
+    private areaService: AreaService,
+    @Inject('FineRuleService')
+    private fineRuleService: FineRuleService,
+    @Inject('DiscountRuleService')
+    private discountRuleService: DiscountRuleService,
+  ) {}
+  async createCharge(
+    @GetUser() user,
+    createChargeDto: CreateChargeDto,
+  ): Promise<number> {
+    const basicPayment = await this.areaService.createBasicFee(createChargeDto); // 지역에따른 기본요금 생성
+
+    const finedMoneyResult = await this.fineRuleService.applyFine(
+      basicPayment.payment,
+      createChargeDto,
+    ); // 벌금규칙 적용
+
+    const finalPayment = await this.discountRuleService.discount(
+      user,
+      createChargeDto,
+      finedMoneyResult,
+      basicPayment.basic_fee,
+    ); //할인규칙 적용
+
+    return finalPayment;
+  }
+}
+
+```
+
+- ChargeService객체는 할인규칙과, 벌금규칙의 추상화(인터페이스)에만 의존하고 있으므로 벌금규칙과 할인규칙의 규현체(인터페이스를 구현한 클래스)가 추가 되었을 때, 클라이언트 코드인 ChargeService에는 변경의 여파가 없습니다.
+
+#### OCP
+- 확장에는 열려있지만 변경에는 닫혀있어야 닫ㅎ
+ㄷㅏ
