@@ -10,10 +10,12 @@ export class AreaService {
   constructor(
     @InjectRepository(AreaRepository)
     private areaRepository: AreaRepository,
-  ) { }
+  ) {}
 
   // == 해당 지역의 기본요금 응답 == //
-  async createBasicFee(createChargeDto: CreateChargeDto): Promise<{ payment: number, basic_fee: number }> {
+  async createBasicFee(
+    createChargeDto: CreateChargeDto,
+  ): Promise<{ payment: number; basic_fee: number }> {
     const { lat, lng, startAt, endAt } = createChargeDto;
 
     if (await this.isContainMultipointBoundary(lat, lng))
@@ -25,10 +27,12 @@ export class AreaService {
 
     const payment: number =
       foundArea[0].basic_fee + foundArea[0].extra_fee * diffMinutes;
+
     const data = {
       payment: payment,
-      basic_fee: foundArea[0].basic_fee
-    }
+      basic_fee: foundArea[0].basic_fee,
+    };
+
     return data;
   }
 
