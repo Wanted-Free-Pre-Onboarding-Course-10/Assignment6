@@ -118,10 +118,6 @@ npm run start:dev
 | 박상엽 | [큰형](  https://github.com/lotus0204)           |    |            |
 
 
-## 협업 방식
-
-[잡초 협업하기](https://github.com/Wanted-Free-Pre-Onboarding-Course-10/Assignment2/wiki/%ED%98%91%EC%97%85-%EB%B0%A9%EC%8B%9D)
-
 ## 개발 과정
 
 ### 도메인 설계
@@ -238,7 +234,7 @@ export class ChargeService {
 #### 퀵보드 생성
 - 퀵보드의 개수도 지역마다 정하여 설정하였습니다.
 
-### 기능 시나리오
+## 기능 시나리오
 
 1. 로그인을 합니다.
    - 회원이면 로그인을 합니다.
@@ -249,3 +245,6 @@ export class ChargeService {
    - 예외 상황이라면 예외 규칙을 적용하여 요금을 응답합니다. ----------------------아직안함
    - 할인, 벌금 규칙 모두에 적용되지 않다면 기본요금을 응답합니다.
 
+## 협업 방식
+
+[잡초 협업하기](https://github.com/Wanted-Free-Pre-Onboarding-Course-10/Assignment2/wiki/%ED%98%91%EC%97%85-%EB%B0%A9%EC%8B%9D)
