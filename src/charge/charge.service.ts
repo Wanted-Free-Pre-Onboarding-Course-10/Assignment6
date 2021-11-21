@@ -13,7 +13,7 @@ export class ChargeService {
     private fineRuleService: FineRuleService,
     @Inject('DiscountRuleService')
     private discountRuleService: DiscountRuleService,
-  ) {}
+  ) { }
   async createCharge(
     @GetUser() user,
     createChargeDto: CreateChargeDto,
@@ -24,7 +24,10 @@ export class ChargeService {
       basicPayment.payment,
       createChargeDto,
     ); // 벌금규칙 적용
-
+    // 기존 금액과 벌금 고려후 금액이 다르다면 할인 X
+    if (basicPayment.payment != finedMoneyResult) {
+      return finedMoneyResult;
+    }
     const finalPayment = await this.discountRuleService.discount(
       user,
       createChargeDto,

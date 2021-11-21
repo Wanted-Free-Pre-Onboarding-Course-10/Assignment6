@@ -9,9 +9,11 @@ export class ParkingzoneRepository extends Repository<ParkingZone> {
   ): Promise<ParkingZone> {
     const foundArea = await this.manager.query(` 
         select * from parkingzone where ST_Contains(parkingzone.parkingzone_center, ST_GeomFromText('POINT(${parseFloat(
-          lat,
-        )} ${parseFloat(lng)})'));
+      lat,
+    )} ${parseFloat(lng)})'));
         `);
+    if (foundArea.length == 0)
+      return null;
     return foundArea;
   }
 

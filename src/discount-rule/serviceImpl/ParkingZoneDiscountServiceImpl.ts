@@ -14,7 +14,7 @@ export class ParkingZoneDiscountServiceImpl implements DiscountRuleService {
     @InjectRepository(ParkingzoneRepository)
     private parkingRepository: ParkingzoneRepository,
     private usersRepository: UsersRepository,
-  ) {}
+  ) { }
 
   // 할인 요금제 //
   async discount(
@@ -24,25 +24,21 @@ export class ParkingZoneDiscountServiceImpl implements DiscountRuleService {
     basic_fee,
   ): Promise<number> {
     const { lat, lng } = createChargeDto;
+    const check = await this.parkingRepository.findParkingzoneByLatAmdLng(lat, lng,);
     const startAt = new Date();
     const endtAt = await this.usersRepository.getLastUsedTime(user);
-    if (endtAt) {
-      const startMoment = moment(startAt, 'YYYYMMDDHHmm');
-      const endMoment = moment(endtAt, 'YYYYMMDDHHmm');
-      const diffMinutes = moment
-        .duration(endMoment.diff(startMoment))
-        .asMinutes();
-      if (diffMinutes < 30) {
-        finedMoneyResult = finedMoneyResult - basic_fee;
-        return finedMoneyResult;
-      }
-    }
-    const check = await this.parkingRepository.findParkingzoneByLatAmdLng(
-      lat,
-      lng,
-    );
-    if (check) finedMoneyResult = finedMoneyResult * 0.7;
+    const startMoment = moment(startAt, 'YYYYMMDDHHmm');
+    const endMoment = moment(endtAt, 'YYYYMMDDHHmm');
 
+    const diffMinutes = moment
+      .duration(startMoment.diff(endMoment))
+      .asMinutes();
+    if (diffMinutes < 30) {
+      finedMoneyResult = finedMoneyResult - basic_fee;
+    }
+    if (check) {
+      finedMoneyResult = finedMoneyResult * 0.7;
+    }
     //사용자 반납시간
     await this.usersRepository.setLastUsedTime(user);
     return finedMoneyResult;

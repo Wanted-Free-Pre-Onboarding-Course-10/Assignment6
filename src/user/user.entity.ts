@@ -23,7 +23,7 @@ export class User {
   @JoinTable({ name: 'USER_DEER' })
   deers: Deer[];
 
-  @Column({ nullable: true })
+  @Column({ type: 'datetime', nullable: true })
   returnTime: Date;
 
   @BeforeInsert()
