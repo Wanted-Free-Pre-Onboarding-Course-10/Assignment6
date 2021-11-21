@@ -4,8 +4,10 @@ import {
   Entity,
   ManyToMany,
   PrimaryGeneratedColumn,
+  BeforeInsert,
 } from 'typeorm';
 import { Deer } from '../deer/deer.entity';
+import * as bcrypt from 'bcrypt';
 
 @Entity('USER')
 export class User {
@@ -20,4 +22,13 @@ export class User {
   @ManyToMany(() => Deer)
   @JoinTable({ name: 'USER_DEER' })
   deers: Deer[];
+
+  @Column({ type: 'datetime', nullable: true })
+  returnTime: Date;
+
+  @BeforeInsert()
+  async setPassword(password: string) {
+    const salt = await bcrypt.genSalt();
+    this.password = await bcrypt.hash(password || this.password, salt);
+  }
 }
