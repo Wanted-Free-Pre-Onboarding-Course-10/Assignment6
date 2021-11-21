@@ -92,7 +92,7 @@
 
 
 ## API
-[API문서](https://documenter.getpostman.com/view/13568025/UVCB9Pbm)
+[API문서](https://documenter.getpostman.com/view/18448217/UVJWqfLb)
 
 ## API 테스트
 1. 우측 링크를 클릭해서 postman으로 들어갑니다.[링크](https://www.postman.com/martian-satellite-348039/workspace/humanscape/overview) 
