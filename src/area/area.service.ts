@@ -13,18 +13,28 @@ export class AreaService {
     private areaRepository: AreaRepository,
     @InjectRepository(DeerRepository)
     private deerRepository: DeerRepository,
-  ) { }
+  ) {}
 
   // == 해당 지역의 기본요금 응답 == //
-  async createBasicFee(
-    createChargeDto: CreateChargeDto,
-  ): Promise<{ payment: number; basic_fee: number, usage_time: number, operating_fee: number }> {
+  async createBasicFee(createChargeDto: CreateChargeDto): Promise<{
+    payment: number;
+    basic_fee: number;
+    usage_time: number;
+    operating_fee: number;
+    area: string;
+    landingArea: any;
+  }> {
     const { lat, lng, startAt, endAt, boardName } = createChargeDto;
 
     if (await this.isContainMultipointBoundary(lat, lng))
       throw new LandingBoundaryException();
 
     const deer = await this.deerRepository.findbyBoardId(boardName);
+
+    const landingArea = await this.areaRepository.findAreaByLatAndLng(lat, lng);
+    const landingAreaName = landingArea[0]
+      ? landingArea[0].area_name
+      : '범위를 벗어난 지역';
 
     const diffMinutes = this.calculateDiffMinutes(startAt, endAt);
 
@@ -35,7 +45,9 @@ export class AreaService {
       payment: payment,
       basic_fee: deer.area.basicFee,
       usage_time: diffMinutes,
-      operating_fee: deer.area.extraFee * diffMinutes
+      operating_fee: deer.area.extraFee * diffMinutes,
+      area: deer.area.areaName,
+      landingArea: landingAreaName,
     };
 
     return data;

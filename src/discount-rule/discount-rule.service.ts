@@ -7,7 +7,7 @@ export interface DiscountRuleService {
   discount(
     user: User,
     createChargeDto: CreateChargeDto,
-    finedMoneyResult,
+    finedMoneyResult: { basicPayment: number; reason: string },
     basic_fee,
-  ): Promise<{ finedMoneyResult: number, message: string }>;
+  ): Promise<{ finedMoneyResult: number; message: string }>;
 }
