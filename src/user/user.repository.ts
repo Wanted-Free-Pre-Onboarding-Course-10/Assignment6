@@ -1,7 +1,7 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { User } from './user.entity';
 import { SignUpDto } from './dto/sign.up.dto';
-import * as moment from 'moment';
+
 @EntityRepository(User)
 export class UsersRepository extends Repository<User> {
   async findUserByName(username: string): Promise<User> {
@@ -43,9 +43,8 @@ export class UsersRepository extends Repository<User> {
     }
   }
 
-  async setLastUsedTime(id: number) {
+  async setLastUsedTime(id: number, lastAt: Date) {
     try {
-      const lastAt = new Date();
       // const lastMoment = moment(lastAt, 'YYYYMMDDHHmm');
       const user = await this.findOne(id);
       user.returnTime = lastAt;
