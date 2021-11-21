@@ -14,9 +14,11 @@ export class ForbiddenFineRuleServiceImpl implements FineRuleService {
     private deerRepository: DeerRepository,
   ) {}
 
-  async applyFine(basicPayment: number, createChargeDto: CreateChargeDto) {
+  async applyFine(
+    basicPayment: number,
+    createChargeDto: CreateChargeDto,
+  ): Promise<number> {
     const { lat, lng, boardName } = createChargeDto;
-
     const currentArea = await this.forbiddenAreaRepository.currentArea(
       lat,
       lng,
@@ -31,7 +33,7 @@ export class ForbiddenFineRuleServiceImpl implements FineRuleService {
     const areaCenterPoint = this.getCenterPointValue(
       originalArea.area.areaCenter.toString(),
     );
-
+      
     if (currentArea.id === originalArea.id) {
       if (await forbiddenArea) {
         return basicPayment + 6000;
