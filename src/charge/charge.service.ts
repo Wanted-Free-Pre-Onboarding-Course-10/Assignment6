@@ -16,14 +16,12 @@ export class ChargeService {
     private fineRuleService: FineRuleService,
     @Inject('DiscountRuleService')
     private discountRuleService: DiscountRuleService,
-  ) {}
+  ) { }
 
   async createCharge(
     @GetUser() user,
     createChargeDto: CreateChargeDto,
   ): Promise<any> {
-    const basicPayment = await this.areaService.createBasicFee(createChargeDto); // 지역에따른 기본요금 생성
-  ): Promise<number> {
     // == 예외 규칙 적용 == //
     if (this.errorRuleService.isApplyError(createChargeDto)) return 0;
 
