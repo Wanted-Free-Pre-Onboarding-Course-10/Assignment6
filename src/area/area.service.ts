@@ -13,12 +13,12 @@ export class AreaService {
     private areaRepository: AreaRepository,
     @InjectRepository(DeerRepository)
     private deerRepository: DeerRepository,
-  ) {}
+  ) { }
 
   // == 해당 지역의 기본요금 응답 == //
   async createBasicFee(
     createChargeDto: CreateChargeDto,
-  ): Promise<{ payment: number; basic_fee: number }> {
+  ): Promise<{ payment: number; basic_fee: number, usage_time: number, operating_fee: number }> {
     const { lat, lng, startAt, endAt, boardName } = createChargeDto;
 
     if (await this.isContainMultipointBoundary(lat, lng))
@@ -34,6 +34,8 @@ export class AreaService {
     const data = {
       payment: payment,
       basic_fee: deer.area.basicFee,
+      usage_time: diffMinutes,
+      operating_fee: deer.area.extraFee * diffMinutes
     };
 
     return data;

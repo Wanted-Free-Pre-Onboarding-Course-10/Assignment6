@@ -12,12 +12,12 @@ export class ForbiddenFineRuleServiceImpl implements FineRuleService {
     private forbiddenAreaRepository: ForbiddenAreaRepository,
     @InjectRepository(DeerRepository)
     private deerRepository: DeerRepository,
-  ) {}
+  ) { }
 
   async applyFine(
     basicPayment: number,
     createChargeDto: CreateChargeDto,
-  ): Promise<number> {
+  ): Promise<{ "basicPayment": number; "reason": string }> {
     const { lat, lng, boardName } = createChargeDto;
     const currentArea = await this.forbiddenAreaRepository.currentArea(
       lat,
@@ -33,22 +33,37 @@ export class ForbiddenFineRuleServiceImpl implements FineRuleService {
     const areaCenterPoint = this.getCenterPointValue(
       originalArea.area.areaCenter.toString(),
     );
-      
+
     if (currentArea.id === originalArea.id) {
       if (await forbiddenArea) {
-        return basicPayment + 6000;
+        return {
+          "basicPayment": basicPayment + 6000,
+          "reason": "주차 금지 구역 위반"
+        }
+
       } else {
-        return basicPayment;
+        return {
+          "basicPayment": basicPayment,
+          "reason": "위반 사항 없음"
+        }
+
       }
     } else {
       const distanceFromOriginalArea = Math.sqrt(
         Math.pow(parseInt(areaCenterPoint[0]) - parseInt(lat), 2) +
-          Math.pow(parseInt(areaCenterPoint[1]) - parseInt(lng), 2),
+        Math.pow(parseInt(areaCenterPoint[1]) - parseInt(lng), 2),
       );
       if (await forbiddenArea) {
-        return basicPayment + 500 * distanceFromOriginalArea + 6000;
+        return {
+          "basicPayment": basicPayment + 500 * distanceFromOriginalArea + 6000,
+          "reason": "주차 금지 구역 및 지역 이동 위반"
+        }
+
       } else {
-        return basicPayment + 500 * distanceFromOriginalArea;
+        return {
+          "basicPayment": basicPayment + 500 * distanceFromOriginalArea,
+          "reason": "지역 이동 위반"
+        }
       }
     }
   }

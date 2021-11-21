@@ -4,5 +4,5 @@ export interface FineRuleService {
   applyFine(
     basicPayment: number,
     createChargeDto: CreateChargeDto,
-  ): Promise<number>;
+  ): Promise<{ "basicPayment": number; "reason": string }>;
 }

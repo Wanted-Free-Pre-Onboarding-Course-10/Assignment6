@@ -7,14 +7,14 @@ import { AuthGuard } from '@nestjs/passport';
 @Controller('charge')
 @UseGuards(AuthGuard('jwt'))
 export class ChargeController {
-  constructor(private chargeService: ChargeService) {}
+  constructor(private chargeService: ChargeService) { }
   private logger = new Logger('ChargeController');
 
   @Post()
   createCharge(
     @GetUser() user,
     @Body() createChargeDto: CreateChargeDto,
-  ): Promise<number> {
+  ): Promise<any> {
     return this.chargeService.createCharge(user, createChargeDto);
   }
 }
