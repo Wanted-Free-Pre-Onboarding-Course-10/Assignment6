@@ -24,7 +24,7 @@ export class ForbiddenFineRuleServiceImpl implements FineRuleService {
       lng,
     );
 
-    const forbiddenArea = this.forbiddenAreaRepository.findAreaByLatAndLng(
+    const forbiddenArea = await this.forbiddenAreaRepository.findAreaByLatAndLng(
       lat,
       lng,
     );
@@ -33,9 +33,9 @@ export class ForbiddenFineRuleServiceImpl implements FineRuleService {
     const areaCenterPoint = this.getCenterPointValue(
       originalArea.area.areaCenter.toString(),
     );
-
-    if (currentArea.id === originalArea.id) {
-      if (await forbiddenArea) {
+    console.log(currentArea[0].id, originalArea.id)
+    if (currentArea[0].id === originalArea.id) {
+      if (forbiddenArea.id) {
         return {
           "basicPayment": basicPayment + 6000,
           "reason": "주차 금지 구역 위반"

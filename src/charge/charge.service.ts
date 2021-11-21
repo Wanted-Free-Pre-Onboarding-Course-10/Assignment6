@@ -48,7 +48,7 @@ export class ChargeService {
       basicPayment.basic_fee,
     ); //할인규칙 적용
 
-    return this.makeSpecification(basicPayment, finedMoneyResult, finalPayment);
+    return this.makeSpecification(basicPayment, finalPayment);
   }
 
   async makeSpecification2(basicPayment, finedMoneyResult) {
@@ -64,7 +64,7 @@ export class ChargeService {
     return data;
   }
 
-  async makeSpecification(basicPayment, finedMoneyResult, finalPayment) {
+  async makeSpecification(basicPayment, finalPayment) {
     const data = {
       "사용 시간": basicPayment.usage_time,
       "지역 기본 금액": basicPayment.basic_fee,
