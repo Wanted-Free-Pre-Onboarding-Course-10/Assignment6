@@ -7,13 +7,12 @@ export class ParkingzoneRepository extends Repository<ParkingZone> {
     lat: string,
     lng: string,
   ): Promise<ParkingZone> {
+    //원만드는 쿼리
     const foundArea = await this.manager.query(` 
-        select * from parkingzone where ST_Contains(parkingzone.parkingzone_center, ST_GeomFromText('POINT(${parseFloat(
-      lat,
-    )} ${parseFloat(lng)})'));
+        select * from parkingzone where ST_Contains((SELECT ST_BUFFER(parkingzone.parkingzone_center, parkingzone.parkingzone_radius)), ST_GeomFromText('POINT(${parseFloat(
+          lat,
+        )} ${parseFloat(lng)})'));
         `);
-    if (foundArea.length == 0)
-      return null;
     return foundArea;
   }
 

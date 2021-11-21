@@ -11,3 +11,6 @@ export const LOGIN_FAIL_EXCEPTION_MSG =
 
 //== 401 == //
 export const LOGIN_NECESSARY_EXCEPTION_MSG = '로그인이 필요합니다.';
+
+// == 예외 사유 메시지 == //
+export const WRONG_DEER_MSG = '고장난 퀵보드를 1분 이하로 사용한 경우';

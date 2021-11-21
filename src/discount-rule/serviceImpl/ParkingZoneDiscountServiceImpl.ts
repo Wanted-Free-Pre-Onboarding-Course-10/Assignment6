@@ -14,38 +14,43 @@ export class ParkingZoneDiscountServiceImpl implements DiscountRuleService {
     @InjectRepository(ParkingzoneRepository)
     private parkingRepository: ParkingzoneRepository,
     private usersRepository: UsersRepository,
-  ) { }
+  ) {}
 
   // 할인 요금제 //
   async discount(
     @GetUser() user,
     createChargeDto: CreateChargeDto,
-    finedMoneyResult,
+    finedMoneyResult: { basicPayment: number; reason: string },
     basic_fee,
-  ): Promise<{ finedMoneyResult: number, message: string }> {
+  ): Promise<{ finedMoneyResult: number; message: string }> {
     const { lat, lng } = createChargeDto;
-    const check = await this.parkingRepository.findParkingzoneByLatAmdLng(lat, lng,);
+    const check = await this.parkingRepository.findParkingzoneByLatAmdLng(
+      lat,
+      lng,
+    );
     const startAt = new Date();
     const endtAt = await this.usersRepository.getLastUsedTime(user);
     const startMoment = moment(startAt, 'YYYYMMDDHHmm');
     const endMoment = moment(endtAt, 'YYYYMMDDHHmm');
-    let message = "할인 내역 없음";
+    let message = '';
 
     const diffMinutes = moment
       .duration(startMoment.diff(endMoment))
       .asMinutes();
+
     if (diffMinutes < 30) {
-      finedMoneyResult = finedMoneyResult - basic_fee;
-      message = "재사용 시간 30분 미만"
+      finedMoneyResult.basicPayment = finedMoneyResult.basicPayment - basic_fee;
+      message += '재사용 시간 30분 미만. ';
     }
-    if (check) {
-      finedMoneyResult = finedMoneyResult * 0.7;
-      message = "주차 구역 주차"
+
+    if (check[0]) {
+      finedMoneyResult.basicPayment = finedMoneyResult.basicPayment * 0.7;
+      message += '주차 구역 주차.';
     }
     await this.usersRepository.setLastUsedTime(user);
     return {
-      finedMoneyResult: finedMoneyResult,
-      message: message
+      finedMoneyResult: finedMoneyResult.basicPayment,
+      message: message,
     };
   }
 }

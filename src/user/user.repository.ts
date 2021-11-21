@@ -50,7 +50,6 @@ export class UsersRepository extends Repository<User> {
       const user = await this.findOne(id);
       user.returnTime = lastAt;
       await this.save(user);
-      console.log(user)
     } catch (error) {
       throw error;
     }
