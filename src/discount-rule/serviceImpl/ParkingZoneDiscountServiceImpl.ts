@@ -22,25 +22,30 @@ export class ParkingZoneDiscountServiceImpl implements DiscountRuleService {
     createChargeDto: CreateChargeDto,
     finedMoneyResult,
     basic_fee,
-  ): Promise<number> {
+  ): Promise<{ finedMoneyResult: number, message: string }> {
     const { lat, lng } = createChargeDto;
     const check = await this.parkingRepository.findParkingzoneByLatAmdLng(lat, lng,);
     const startAt = new Date();
     const endtAt = await this.usersRepository.getLastUsedTime(user);
     const startMoment = moment(startAt, 'YYYYMMDDHHmm');
     const endMoment = moment(endtAt, 'YYYYMMDDHHmm');
+    let message = "할인 내역 없음";
 
     const diffMinutes = moment
       .duration(startMoment.diff(endMoment))
       .asMinutes();
     if (diffMinutes < 30) {
       finedMoneyResult = finedMoneyResult - basic_fee;
+      message = "재사용 시간 30분 미만"
     }
     if (check) {
       finedMoneyResult = finedMoneyResult * 0.7;
+      message = "주차 구역 주차"
     }
-    //사용자 반납시간
     await this.usersRepository.setLastUsedTime(user);
-    return finedMoneyResult;
+    return {
+      finedMoneyResult: finedMoneyResult,
+      message: message
+    };
   }
 }
