@@ -17,6 +17,7 @@ import { ParkingzoneRepository } from './discount-rule/discount.repository';
 import { ParkingZone } from './discount-rule/parkingzone.entity';
 import { DeerRepository } from './deer/deer.repository';
 import { Deer } from './deer/deer.entity';
+import { ErrorRuleModule } from './error-rule/error-rule.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { Deer } from './deer/deer.entity';
     FineRuleModule,
     DiscountRuleModule,
     ChargeModule,
+    ErrorRuleModule,
   ],
   controllers: [AppController],
   providers: [AppService],
