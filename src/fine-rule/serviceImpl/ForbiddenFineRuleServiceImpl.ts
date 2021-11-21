@@ -12,9 +12,12 @@ export class ForbiddenFineRuleServiceImpl implements FineRuleService {
     private forbiddenAreaRepository: ForbiddenAreaRepository,
     @InjectRepository(DeerRepository)
     private deerRepository: DeerRepository,
-  ) { }
+  ) {}
 
-  async applyFine(basicPayment: number, createChargeDto: CreateChargeDto) {
+  async applyFine(
+    basicPayment: number,
+    createChargeDto: CreateChargeDto,
+  ): Promise<number> {
     const { lat, lng, startAt, endAt, boardName } = createChargeDto;
 
     const currentArea = await this.forbiddenAreaRepository.currentArea(
@@ -30,7 +33,7 @@ export class ForbiddenFineRuleServiceImpl implements FineRuleService {
     );
     const distanceFromOriginalArea = Math.sqrt(
       Math.pow(parseInt(areaCenterPoint[0]) - parseInt(lat), 2) +
-      Math.pow(parseInt(areaCenterPoint[1]) - parseInt(lng), 2),
+        Math.pow(parseInt(areaCenterPoint[1]) - parseInt(lng), 2),
     );
     if (currentArea.id === originalArea.id) {
       if (forbiddenArea) {

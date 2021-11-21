@@ -4,6 +4,16 @@ import { SignUpDto } from './dto/sign.up.dto';
 
 @EntityRepository(User)
 export class UsersRepository extends Repository<User> {
+  async findUserByName(username: string): Promise<User> {
+    const user = await this.createQueryBuilder('user')
+      .where('user.username = :username', {
+        username,
+      })
+      .getOne();
+
+    return user;
+  }
+
   async signUp(signUpDto: SignUpDto) {
     const createdUser = this.create(signUpDto);
     try {
