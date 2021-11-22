@@ -108,13 +108,14 @@
 ```
 git clone https://github.com/Wanted-Free-Pre-Onboarding-Course-10/Assignment5.git
 
-.env파일 존재해야 실행가능합니다.
-
 ```
 
- ### 환경 구축 및 
+ ### 환경 구축 및 실행
 ```
+//.env파일 존재해야 실행가능합니다.
 npm install
+
+docker-compose up
 
 npm run start:dev
 ```
@@ -232,6 +233,28 @@ export class ChargeService {
   ) {}
 ```
 - 생성자에 변경된 구현체를 주입해주지 않아도 변경할 구현체를 모듈파일에 임포트하기에, 확장은 되어도 변경은 없습니다.
+
+### 공간 데이터 타입
+- 지역은 polygon, 금지구역도 polygon, 파킹존은 point와 반지름의 원, 그리고 킥보드 반납지역은 point등으로 나타내어야 한다.
+- 데이터베이스의 공간데이터 타입 필드를 이용했다.
+- point가 polygon 내에 존재하는지 안하는지의 SQL
+```typescript
+    const foundArea = await this.manager.query(` 
+    select * from area where ST_Contains(area.area_boundary, ST_GeomFromText('POINT(${parseFloat(
+      lat,
+    )} ${parseFloat(lng)})'));
+    `);
+```
+- ST_Contains함수를 통해 area의 polygon(boundary)에 point가 포함이 되어있는지를 알 수 있다.
+
+- 원인 파킹존에 킥보드를 반납했는 지를 알수 있는 쿼리
+```typescript
+    const foundArea = await this.manager.query(` 
+        select * from parkingzone where ST_Contains((SELECT ST_BUFFER(parkingzone.parkingzone_center, parkingzone.parkingzone_radius)), ST_GeomFromText('POINT(${parseFloat(
+          lat,
+        )} ${parseFloat(lng)})'));
+        `);
+```
 
 ### 기본 데이터 생성
 
