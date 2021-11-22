@@ -106,7 +106,7 @@
 ### 프로젝트 설치
 
 ```
-git clone https://github.com/Wanted-Free-Pre-Onboarding-Course-10/Assignment5.git
+git clone https://github.com/Wanted-Free-Pre-Onboarding-Course-10/Assignment6.git
 
 ```
 
@@ -124,10 +124,10 @@ npm run start:dev
 
 | 이름   | github                                          | 담당 역할                  | 회고록             |
 | ------ | ----------------------------------------------- | -------------------------- |------------------|
-| 박지율 | [earthkingman](https://github.com/earthkingman) |    |            |
-| 염재선 | [Yeom Jae Seon](https://github.com/YeomJaeSeon) |    |            |
+| 박지율 | [earthkingman](https://github.com/earthkingman) |  할인규칙  |            |
+| 염재선 | [Yeom Jae Seon](https://github.com/YeomJaeSeon) |  기본요금  |            |
 | 김태희 | [김태희](https://github.com/godtaehee)           |    |             |
-| 박상엽 | [큰형](  https://github.com/lotus0204)           |    |            |
+| 박상엽 | [큰형](  https://github.com/lotus0204)           |  벌금규칙  |            |
 
 
 ## 개발 과정
