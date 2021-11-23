@@ -127,7 +127,7 @@ npm run start:dev
 | 이름   | github                                          | 담당 역할                  | 회고록             |
 | ------ | ----------------------------------------------- | -------------------------- |------------------|
 | 박지율 | [earthkingman](https://github.com/earthkingman) |  할인규칙  |            |
-| 염재선 | [Yeom Jae Seon](https://github.com/YeomJaeSeon) |  기본요금  |            |
+| 염재선 | [Yeom Jae Seon](https://github.com/YeomJaeSeon) |  기본요금  | [회고록](https://yjs3819.tistory.com/72) |
 | 김태희 | [김태희](https://github.com/godtaehee)           | 로그인기능, 벌금규칙  |             |
 | 박상엽 | [큰형](  https://github.com/lotus0204)           |  벌금규칙  |            |
 
